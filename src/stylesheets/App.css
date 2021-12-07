@@ -1,0 +1,11 @@
+/*App styles*/
+
+.app-space{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

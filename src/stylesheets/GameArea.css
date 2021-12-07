@@ -1,0 +1,267 @@
+/**Game Area Styles**/
+.game-load{
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+}
+
+.game{
+	height: 100%;
+	color: white;
+	width: 100%;
+}
+
+#parent-container{
+	display: flex;
+	justify-content: center;
+	perspective: 1500px;
+	animation: goto .8s linear;
+}
+
+.game-card{
+	margin-top: 100px;
+	height: 450px;
+	background: var(--secondary-color);
+	border-radius: 10px;
+	overflow: hidden;
+	position: absolute; 
+	z-index: 1;
+	box-shadow: 1px 0px 14px 0px #1d1818;
+	border: 1px solid #363434;
+	animation: straighten 1s linear;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+
+}
+
+.go-from{
+	animation: go-from .8s linear !important;
+	transform: scaleX(40%);
+}
+
+.reverse-straighten{
+	animation: reverse-straighten 1s linear !important;
+	transform: rotateX(80deg);
+
+}
+
+@media (max-width: 576px){
+	.game-card {
+	    height: 400px
+	}
+}
+
+@keyframes goto{
+	from {
+		transform: scaleX(10%);
+	}
+
+	to{
+		tranform: scaleX(100%);
+	}
+}
+
+@keyframes go-from{
+	from {
+		transform: scaleX(100%);
+	}
+
+	to{
+		transform: scaleX(40%);
+	}
+}
+
+@keyframes straighten{
+	0%{
+		transform: rotateX(80deg);
+	}
+
+	50%{
+		transform: rotateX(80deg);
+	}
+
+	100%{
+		transform: rotateX(0deg);
+	}
+}
+
+@keyframes reverse-straighten{
+	0%{
+		transform: rotateX(0deg);
+	}
+
+	50%{
+		transform: rotateX(80deg);
+	}
+
+	100%{
+		transform: rotateX(80deg);
+	}
+}
+
+.game-card>.row{
+	border-bottom: 1px solid white;
+	width: 100%; 
+	height: 50%;
+	--bs-gutter-x: unset !important;
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.game-card>.row:last-child{
+	border: none;
+}
+
+.box{
+	border-right: 1px solid white;
+	width: 33.3333333333333333333333333333% !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 60px;
+}
+
+.game-card>.row .box:last-child{
+	border-right: none;
+}
+
+.timer {
+    position: absolute;
+    padding: 10px;
+    border-radius: 10px;
+    background: #292a2d;
+    margin: 10px;
+    box-shadow: 0px 0px 5px #101010;
+    right: 0px;
+}
+
+.user {
+    position: absolute;
+    padding: 10px;
+    border-radius: 10px;
+    background: #292a2d;
+    margin: 10px;
+    box-shadow: 0px 0px 5px #101010;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.score{
+	display: flex;
+	padding: 20px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    align-items: center;
+    justify-content: center;
+}
+
+.score>div {
+	display: flex;
+	margin-bottom: 20px;
+}
+.score>div>div{
+    padding: 10px;
+    border-radius: 10px;
+    background: #292a2d;
+    box-shadow: 0px 0px 5px #101010;
+    margin-left: 10px;
+    margin-right: 10px;
+  	padding-left: 20px;
+  	padding-right: 20px;
+}
+.notification{
+	position: absolute;
+    width: 300px;
+    background: #292a2d;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px #1e1b1b;
+    transition: all .1s linear;
+    margin-top: -200px;
+    z-index: 1;
+}
+
+.notification-prompt{
+	position: absolute;
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #1e1b1b;
+    transition: all .2s linear;
+    z-index: 1;
+    background: #9e9e9e;
+    top: 0;
+    padding: 20px;
+    font-weight: bold;
+    transform: translateY(-150%);
+}
+
+.notification-prompt-background{
+	background: #4d4d50bd;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: none;
+    justify-content: center;
+    transition: all .4s linear;
+    position: fixed;
+}
+
+.show-notification{
+	margin-top: 0;
+}
+
+.blink-continious{
+	background: #29a1295c;
+}
+
+.blink-continious> span{
+	animation: blink .35s ease-in infinite;
+}
+
+@keyframes blink{
+	from{
+		transform: scale(120%);
+	}
+
+	to{
+		transform: scale(100%);
+	}
+}
+
+/*Paused Menu Styles*/
+.paused-menu-container{
+	background: var(--secondary-color);
+	border-radius: 10px;
+	overflow: hidden;
+	animation: menu-entry .8s ease-out;
+	position: absolute; 
+	z-index: 1;
+	transform: skew(10deg, 10deg);
+	box-shadow: -59px 60px 5px #1d1818;
+	border: 1px solid #363434;
+}
+
+.paused-background{
+    position: absolute;
+    z-index: 1;
+    background: rebeccapurple;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(32 33 36 / 76%);
+}
+
+.slide-down{
+	transform: translateY(0%);
+}

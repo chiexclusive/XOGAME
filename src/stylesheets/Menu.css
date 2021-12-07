@@ -1,0 +1,150 @@
+/*Menu Styles*/
+
+.menu-container{
+	background: var(--secondary-color);
+	border-radius: 10px;
+	overflow: hidden;
+	animation: menu-entry .8s ease-out;
+	position: absolute; 
+	z-index: 1;
+	transform: skew(10deg, 10deg);
+	box-shadow: -59px 60px 5px #1d1818;
+	border: 1px solid #363434;
+	transition: all .4s ease-out;
+}
+
+.play-menu-container{
+	background: var(--secondary-color);
+	border-radius: 10px;
+	overflow: hidden;
+	animation: menu-entry .8s ease-out;
+	position: absolute; 
+	z-index: 1;
+	transform: skew(10deg, 10deg);
+	box-shadow: -59px 60px 5px #1d1818;
+	border: 1px solid #363434;
+	transition: all .4s ease-out;
+}
+
+
+@keyframes menu-entry{
+	from{
+		margin-left: 1000px;
+		height: 0px;
+		width: 0px;
+		opacity: 0;
+		transform: skew(10deg, 60deg);
+	}
+	to{
+		margin-left: 0px;
+		height: auto;
+		width: auto;
+		opacity: 1;
+		transform: skew(0deg, 0deg);
+	}
+}
+
+.menu-button{
+	width: 300px;
+	font-size: 16px;
+	border-bottom: 0.08px solid #505050;
+	color: white;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.menu-button:last-child{
+	border: none;
+}
+
+.menu-button:hover{
+	background:#505050;
+	color: white;
+}
+
+.menu-button-icon{
+	display: inline-block;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	color: grey;
+}
+
+.menu-sub-button{
+	color: grey;
+    font-size: 12px;
+}
+
+.menu-button-icon +  span{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.slide-left{
+	transition: all .4s ease-out;
+	transform: translate(-300px, 10px) scale(50%) skew(0deg, 0deg);
+	opacity: 0;
+}
+
+.slide-right{
+	transition: all .2s linear;
+	transform: translate(300px, 10px) scale(50%) skew(0deg, 0deg);
+	opacity: 0;
+}
+
+.hide{
+	display: none;
+}
+
+
+/*Styles for SinglePlayerOptionsBoard*/
+.options-board-container{
+	
+	overflow: hidden;
+	position: absolute; 
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.options-board{
+	background: var(--secondary-color);
+	box-shadow: 0px 0px 5px #1d1818;
+	border: 1px solid #363434;
+	border-radius: 10px;
+}
+
+.single-player-radio{
+	margin-left: 10px;
+	margin-right: 10px;
+	transform: scale(1.5);
+}
+
+.single-player-icon{
+	transform: scale(2);
+	padding-right: 10px;
+	margin-left: 50px;
+	color: #5c5c5c !important ;
+}
+
+.modal-content{
+	background: var(--secondary-color) !important;
+	color: white;
+}
+
+.modal-header, .modal-footer{
+	border-color: #5c5c5c !important;
+}
+
+.form-control{
+	background: #343434 !important;
+	color: white !important;
+	border-color: #5c5c5c !important;
+}
+
+.form-group{
+	margin-top: 10px;
+}
