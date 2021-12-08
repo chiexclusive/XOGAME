@@ -12,6 +12,7 @@ function Menu (props) {
 		//Remove the menu on menu options click
 		const menu = document.querySelector(".menu-container")
 		menu.classList.add("slide-right");
+		menu.setAttribute("disabled", true);
 	}
 
 	const play = () => {

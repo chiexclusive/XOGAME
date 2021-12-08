@@ -72,7 +72,9 @@ function userPlay() {
 
 //Handle user play
 function handleUserPlay(event) {
-		
+	
+	event.stopPropagation();
+	
 	if(window.gameData.sound === "yes"){
 		soundPlayer.play(450.0, 13.8, "sine").stop(0.2);
 	}

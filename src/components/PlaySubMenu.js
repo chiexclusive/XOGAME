@@ -18,19 +18,12 @@ function PlaySubMenu (props) {
 		menuContainer.classList.remove("slide-left");
 		thisContainer.classList.add("slide-right");
 		props.implement(" ");
+		menuContainer.removeAttribute("disabled");
 	}
 
 	return (
 		<menu className = "play-menu-container">
 			<ul>
-				<li className = "menu-button hide">
-					<span className = "menu-button-icon fa fa-play"></span>
-					<span>Continue <br /> <span className = "menu-sub-button">Continue game</span></span>
-				</li>
-				<li className = "menu-button hide">
-					<span className = "menu-button-icon fa fa-circle-o-notch"></span>
-					<span>Restart <br /> <span className = "menu-sub-button">Restart game</span></span>
-				</li>
 				<li className = "menu-button" onClick = {() => singlePlayer()}>
 					<span className = "menu-button-icon fa fa-user"></span>
 					<span>Single Player<br /> <span className = "menu-sub-button">Play Solo</span></span>

@@ -86,12 +86,14 @@
 	transition: all .4s ease-out;
 	transform: translate(-300px, 10px) scale(50%) skew(0deg, 0deg);
 	opacity: 0;
+	z-index: -1;
 }
 
 .slide-right{
 	transition: all .2s linear;
 	transform: translate(300px, 10px) scale(50%) skew(0deg, 0deg);
 	opacity: 0;
+	z-index: -1;
 }
 
 .hide{

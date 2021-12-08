@@ -9,12 +9,12 @@ function SinglePlayerOptionsBoard (props){
 	const [sprite, setSprite] = useState(localStorage.getItem("xodata") === null ? "x" : JSON.parse(localStorage.getItem("xodata")).settings.sprite);
 	const [difficulty, setDifficulty] = useState(localStorage.getItem("xodata") === null ? "Dummy": JSON.parse(localStorage.getItem("xodata")).settings.difficulty);
 	const [sound, setSound] = useState(localStorage.getItem("xodata") === null ? true: JSON.parse(localStorage.getItem("xodata")).settings.sound);
-	const [opponent, setOpponent] = useState(localStorage.getItem("xodata") === null ? "Computer": JSON.parse(localStorage.getItem("xodata")).settings.opponent);
-	const [multiplayer, setMultiplayer] = useState(localStorage.getItem("xodata") === null ? false: JSON.parse(localStorage.getItem("xodata")).settings.multiplayer);
+	const [opponent,] = useState(localStorage.getItem("xodata") === null ? "Computer": JSON.parse(localStorage.getItem("xodata")).settings.opponent);
+	const [multiplayer,] = useState(localStorage.getItem("xodata") === null ? false: JSON.parse(localStorage.getItem("xodata")).settings.multiplayer);
 
 	//Update fields
 	const setField = (event) => {
-		const mapping = {name : (val) => setName(val), firstMove : (val) => setFirstMove(val), sprite : (val) => setSprite(val), difficulty: (val) => setDifficulty(val), sound: (val) => setSound(val), difficulty : (val) => setDifficulty(val)};
+		const mapping = {name : (val) => setName(val), firstMove : (val) => setFirstMove(val), sprite : (val) => setSprite(val), difficulty: (val) => setDifficulty(val), sound: (val) => setSound(val)};
 		mapping[event.target.name](event.target.value);
 	}
 
