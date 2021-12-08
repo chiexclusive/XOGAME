@@ -164,7 +164,7 @@ function GameArea (props) {
 
 			</div>
 
-			{isPaused === true ? <PausedGameMenu  setStart = {val => props.setStart(val)} setGameRestartNow = {setGameRestartNow} restart = {restart} setRestart = {(val) => setRestart(val)} setPaused = {setIsPaused}/> : <div></div>}
+			{isPaused === true ? <PausedGameMenu  setStart = {val => props.setStart(val)} setGameRestartNow = {setGameRestartNow} restart = {restart} setRestart = {(val) => setRestart(val)} setPaused = {setIsPaused} implement = {(value) => props.implement(value)}/> : <div></div>}
 		</div>
 	)
 }

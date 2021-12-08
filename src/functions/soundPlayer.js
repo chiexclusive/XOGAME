@@ -66,3 +66,5 @@ SoundPlayer.prototype.stop = function(when) {
   return this;
 };
 
+export default SoundPlayer;
+

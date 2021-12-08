@@ -23,7 +23,9 @@ function Menu (props) {
 
 	const settings = () => {
 		//Remove the menu on menu options click
+		window.previousMenu = "main";
 		hideMenuRight()
+		props.implement("SETTINGS")
 	}
 
 	return (

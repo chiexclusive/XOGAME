@@ -13,7 +13,7 @@ function App() {
 		<div className="app-space">
 		  <Menu implement = {(value) => setImplementType(value)} />
 		  <MenuImplements start = {() => setStart(true)} implement = {(value) => setImplementType(value)} type = {implementType}/>
-		  {(start)? <GameArea setStart = {setStart} />: ""}
+		  {(start)? <GameArea setStart = {setStart} implement = {(value) => setImplementType(value)} />: ""}
 		</div>
 	);
 }

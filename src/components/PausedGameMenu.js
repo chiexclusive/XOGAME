@@ -34,6 +34,11 @@ function PausedGameMenu (props){
 		window.promptType = "quit"
 	}
 
+	function settings(){
+		//Remove the menu on menu options click
+		window.previousMenu = "game";
+		props.implement("SETTINGS");
+	}
 
 	return (
 		<div className = "paused-background">
@@ -47,7 +52,7 @@ function PausedGameMenu (props){
 						<span className = "menu-button-icon fa fa-circle-o-notch"></span>
 						<span>Restart</span>
 					</li>
-					<li className = "menu-button">
+					<li className = "menu-button" onClick = {() => settings()}>
 						<span className = "menu-button-icon fa fa-cog"></span>
 						<span>Settings <br /> <span className = "menu-sub-button">Customize Game</span></span>
 					</li>
