@@ -21,7 +21,7 @@ function Settings (props){
 	//Check all value based on the local storage
 	useEffect(() => {
 		//Declare target elements
-		const firstMove = document.getElementsByName("firstMove");
+		const myfirstMove = document.getElementsByName("firstMove");
 		const mySprite = document.getElementsByName("sprite");
 
 		//Handle sprite
@@ -29,8 +29,8 @@ function Settings (props){
 		else mySprite[1].setAttribute("checked", true)
 
 		//Handle first move
-		if(firstMove === "Computer") firstMove[1].setAttribute("checked", true);
-		else  firstMove[1].setAttribute("checked", true);
+		if(firstMove.toLowerCase() === "computer") myfirstMove[1].setAttribute("checked", true);
+		else  myfirstMove[0].setAttribute("checked", true);
 
 	}, [sprite, firstMove])
 
@@ -61,7 +61,7 @@ function Settings (props){
 			sound
 		}
 		window.gameData = data;
-		document.querySelector(".difficulty-box").textContent = window.gameData.difficulty;
+		if(document.querySelector(".difficulty-box")) document.querySelector(".difficulty-box").textContent = window.gameData.difficulty;
 
 		//Save to local storage
 		saveToLocalSorage(data);

@@ -158,7 +158,7 @@ function GameArea (props) {
 				</div>
 
 				<div className = "score">
-					<div className = "score-option difficulty-box w-100"></div><br />
+					<div className = "score-option difficulty-box w-100"></div>
 					<div>
 						<div className = "score-option">{username}: {userWins}</div>
 						<div className = "score-option">Ties: {userTies}</div>
