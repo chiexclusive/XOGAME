@@ -14,7 +14,6 @@ function GameArea (props) {
 	const [userWins, setUserWins] = useState(0);
 	const [opponentWins, setOpponentWins] = useState(0);
 	const [userTies, setUserTies] = useState(0);
-	const [difficulty, setDifficulty] = useState(window.gameData.difficulty);
 
 	//Paused menu state
 	const [isPaused, setIsPaused] = useState(false);

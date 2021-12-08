@@ -1,1 +1,1 @@
-web: react-scripts build && serve -s build
+web: npm install -g serve && react-scripts build && serve -s build
