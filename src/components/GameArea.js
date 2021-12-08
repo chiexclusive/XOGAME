@@ -14,6 +14,7 @@ function GameArea (props) {
 	const [userWins, setUserWins] = useState(0);
 	const [opponentWins, setOpponentWins] = useState(0);
 	const [userTies, setUserTies] = useState(0);
+	const [difficulty, setDifficulty] = useState(window.gameData.difficulty);
 
 	//Paused menu state
 	const [isPaused, setIsPaused] = useState(false);
@@ -55,7 +56,10 @@ function GameArea (props) {
 			//Set the repective states
 			setUserName(window.gameData.name);
 			setOpponent(window.gameData.opponent);
-			setTimeout(() => startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer, cleanState: true}), 1000);
+			setTimeout(() => {
+				startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer, cleanState: true});
+				document.querySelector(".difficulty-box").textContent = window.gameData.difficulty;
+			}, 1000);
 		}, 5000)
 	}, [])
 
@@ -155,6 +159,7 @@ function GameArea (props) {
 				</div>
 
 				<div className = "score">
+					<div className = "score-option difficulty-box w-100"></div><br />
 					<div>
 						<div className = "score-option">{username}: {userWins}</div>
 						<div className = "score-option">Ties: {userTies}</div>
@@ -164,7 +169,7 @@ function GameArea (props) {
 
 			</div>
 
-			{isPaused === true ? <PausedGameMenu  setStart = {val => props.setStart(val)} setGameRestartNow = {setGameRestartNow} restart = {restart} setRestart = {(val) => setRestart(val)} setPaused = {setIsPaused} implement = {(value) => props.implement(value)}/> : <div></div>}
+			{isPaused === true ? <PausedGameMenu setStart = {val => props.setStart(val)} setGameRestartNow = {setGameRestartNow} restart = {restart} setRestart = {(val) => setRestart(val)} setPaused = {setIsPaused} implement = {(value) => props.implement(value)}/> : <div></div>}
 		</div>
 	)
 }

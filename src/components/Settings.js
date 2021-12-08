@@ -61,6 +61,7 @@ function Settings (props){
 			sound
 		}
 		window.gameData = data;
+		document.querySelector(".difficulty-box").textContent = window.gameData.difficulty;
 
 		//Save to local storage
 		saveToLocalSorage(data);

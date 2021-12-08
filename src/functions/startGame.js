@@ -13,6 +13,9 @@ var states = {}; //{setUserWins, setOpponentWins, setUserTies, startTimer, stopT
 var ties, wins, lost;
 ties = wins = lost = 0;
 const soundPlayer = new SoundPlayer(new AudioContext());
+var toPlay;
+var players = []
+var hasCollectFirstMove = false;
 
 function startGame (theStates) {
 	//Empty States
@@ -21,6 +24,13 @@ function startGame (theStates) {
 		theStates.setUserWins(0);
 		theStates.setOpponentWins(0);
 		theStates.stopTimer();
+	}
+
+	//Set to Play
+	if(!hasCollectFirstMove){
+		players = [window.gameData.firstMove, window.gameData.opponent]
+		toPlay = window.gameData.firstMove;
+		hasCollectFirstMove = true;
 	}
 
 	//Get states
@@ -46,11 +56,11 @@ function startGame (theStates) {
 	if(!window.gameData.multiplayer){
 
 		//Announce who starts first
-		let mesg = window.gameData.firstMove + " makes the first move";
+		let mesg = toPlay + " makes the first move";
 		announce(mesg);
 
 		//Handle play
-		if(window.gameData.firstMove.toString().toLowerCase() === "computer") return computerPlay()
+		if(toPlay.toString().toLowerCase() === "computer") return computerPlay()
 		else return userPlay(); //Enable user play
 	}
 }
@@ -181,6 +191,14 @@ function handleWin (winIndex) {
 
 //restart game
 function restart(){
+	var changed = false;
+	players.forEach((item, index) => {
+		if(item !== toPlay && changed === false){
+			console.log(item)
+			toPlay = item;
+			changed = true;
+		}
+	})
 	startGame(states);
 }
 
