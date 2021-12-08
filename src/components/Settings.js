@@ -48,6 +48,15 @@ function Settings (props){
 
 	}
 
+	//Ensure that the value of difficuly cannot be changed when game is still on
+	useEffect(() => {
+		if(window.gameEnded === false){
+			document.querySelector(".settings-difficulty").setAttribute("disabled", true);
+		}else{
+			document.querySelector(".settings-difficulty").removeAttribute("disabled");
+		}
+	})
+
 	//Collect data and start game
 	const save = () => {
 
@@ -128,7 +137,7 @@ function Settings (props){
 						<div className = "form-group">
 							<label><strong>Difficulty:</strong></label>
 							<div>
-								<select className = "form-control" name = "difficulty" onChange = {(event) => setField(event)} value = {difficulty}>
+								<select className = "form-control settings-difficulty" name = "difficulty" onChange = {(event) => setField(event)} value = {difficulty}>
 									<option value = "Dummy">Dummy</option>
 									<option value = "Novice">Novice</option>
 									<option value = "Intermediate">Intermediate</option>

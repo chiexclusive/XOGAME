@@ -23,6 +23,7 @@ function PausedGameMenu (props){
 		if(isAccepted === true && window.promptType === "restart") props.setGameRestartNow();
 		if(isAccepted === true && window.promptType === "quit"){
 			props.setStart(false);
+			window.gameEnded = true;
 			document.querySelector(".menu-container").classList.remove("slide-left")
 		}
 		setMessage("");

@@ -17,7 +17,11 @@ var toPlay;
 var players = []
 var hasCollectFirstMove = false;
 
+
 function startGame (theStates) {
+	//Game session indicator
+	window.gameEnded = false;
+
 	//Empty States
 	if(theStates.cleanState){
 		theStates.setUserTies(0);
@@ -120,7 +124,7 @@ async function endUserPlay() {
 	//Call computer
 	setTimeout(() => {
 		if(!won && !gameEnded) computerPlay();
-	}, 1500);
+	}, 1000);
 	
 }
 
@@ -185,6 +189,8 @@ function handleWin (winIndex) {
 
 	states.stopTimer();
 
+	window.gameEnded = true;
+
 	//Listen to user click to start new Game
 	document.querySelector(".game-card").addEventListener("click", restart)
 }
@@ -194,7 +200,6 @@ function restart(){
 	var changed = false;
 	players.forEach((item, index) => {
 		if(item !== toPlay && changed === false){
-			console.log(item)
 			toPlay = item;
 			changed = true;
 		}
@@ -233,6 +238,8 @@ function gameHasEnded () {
 				states.setUserTies(ties);
 				states.stopTimer();//Clear timer
 
+				window.gameEnded = true;
+
 				//Listen to user click to start new Game
 				document.querySelector(".game-card").addEventListener("click", restart);
 				return resolve(true);
@@ -245,6 +252,7 @@ function gameHasEnded () {
 
 //Play the move that computer have in mind
 function playComputerMove (id) {
+	console.log(id)
 	//Add the sprite to the box
 	box.forEach((item, index) => {
 		if(id !== undefined && id.toString() === item.getAttribute("data-id")){
@@ -398,6 +406,7 @@ async function computerNovicePlay () {
 async function computerIntermediatePlay () {
 	//Play scenerios
 	//Variables
+	const edge = [0,2,6,8];
 	let computerSprite = window.gameData.sprite === "x"? "o": "x";
 
 	//Check for a winning chance to win or blocl win
@@ -417,7 +426,7 @@ async function computerIntermediatePlay () {
 	
 	if(!chance.isChance && userMoveCounts === 1 && plays.indexOf(window.gameData.sprite) === 4){
 		
-		const use = [1,3,7,9];
+		const use = [0,2,6,8];
 		let random = () => {
 			return new Promise((resolve, reject) => {
 				let rand = Math.floor(Math.random() * use.length);
@@ -430,6 +439,34 @@ async function computerIntermediatePlay () {
 		let rand = await random();
 		return playComputerMove(use[rand]);
 	}
+
+
+	//If the first move of user is at the center and the second move is at the edge
+	//and my move is at the edge -> find the closed edge to computer first play and play there
+	const userMoveIndex = [];
+	const userMoveValue = [];
+	const computerMoveIndex = [];
+
+	plays.forEach((item, index) => {
+		if(item === window.gameData.sprite) userMoveIndex.push(index);
+		if(item === computerSprite) computerMoveIndex.push(index)
+		if(edge.includes(index)) userMoveValue.push(item)
+	})
+
+	// && userMoveIndex.includes(4) && userMoveValue.includes(window.gameData.sprite) && edge.includes(plays.indexOf(computerSprite))
+	if(!chance.isChance && userMoveIndex.length === 2 && computerMoveIndex.length === 1 && userMoveIndex.includes(4) && userMoveValue.includes(window.gameData.sprite) && edge.includes(plays.indexOf(computerSprite))){
+		const availableSpot = [];
+		edge.forEach((item, index) => {
+			if(plays[item] ===  undefined) availableSpot.push(item);
+		})
+
+
+		//Randomly select the spot
+		const rand = Math.floor(Math.random() * availableSpot.length)
+		console.log("called")
+		return playComputerMove(edge[rand]);
+	}
+
 	
 
 	//Check for 2 ways and block it
@@ -463,9 +500,9 @@ async function computerIntermediatePlay () {
 
 //Computer extreme play
 async function computerProfessionalPlay () {
-	console.log("professional)")
 	//Play scenerios
 	//Variables
+	const edge = [0,2,6,8];
 	let computerSprite = window.gameData.sprite === "x"? "o": "x";
 
 	//Check for a winning chance to win or blocl win
@@ -486,7 +523,7 @@ async function computerProfessionalPlay () {
 	
 	if(!chance.isChance && userMoveCounts === 1 && plays.indexOf(window.gameData.sprite) === 4){
 		
-		const use = [1,3,7,9];
+		const use = [0,2,6,8];
 		let random = () => {
 			return new Promise((resolve, reject) => {
 				let rand = Math.floor(Math.random() * use.length);
@@ -499,31 +536,34 @@ async function computerProfessionalPlay () {
 		let rand = await random();
 		return playComputerMove(use[rand]);
 	}
-	
-	//or
 
-	//Check for the first move of the user to play anywhere apart from the edge
-	userMoveCounts = 0;
+	//If the first move of user is at the center and the second move is at the edge
+	//and my move is at the edge -> find the closed edge to computer first play and play there
+	const userMoveIndex = [];
+	const userMoveValue = [];
+	const computerMoveIndex = [];
+
 	plays.forEach((item, index) => {
-		if(item === window.gameData.sprite) userMoveCounts++;
+		if(item === window.gameData.sprite) userMoveIndex.push(index);
+		if(item === computerSprite) computerMoveIndex.push(index)
+		if(edge.includes(index)) userMoveValue.push(item)
 	})
-	
 
-	if(!chance.isChance && userMoveCounts === 1 && plays.indexOf(window.gameData.sprite) === 4){
-		
-		const use = [1,5,7,3];
-		let random = () => {
-			return new Promise((resolve, reject) => {
-				let rand = Math.floor(Math.random() * use.length);
-				if(plays[use[rand]] === undefined) return resolve(rand);
-				else random();
-			})
-			
-		}
+	// && userMoveIndex.includes(4) && userMoveValue.includes(window.gameData.sprite) && edge.includes(plays.indexOf(computerSprite))
+	if(!chance.isChance && userMoveIndex.length === 2 && computerMoveIndex.length === 1 && userMoveIndex.includes(4) && userMoveValue.includes(window.gameData.sprite) && edge.includes(plays.indexOf(computerSprite))){
+		const availableSpot = [];
+		edge.forEach((item, index) => {
+			if(plays[item] ===  undefined) availableSpot.push(item);
+		})
 
-		let rand = await random();
-		return playComputerMove(use[rand]);
+
+		//Randomly select the spot
+		const rand = Math.floor(Math.random() * availableSpot.length)
+		console.log("called")
+		return playComputerMove(edge[rand]);
 	}
+
+
 
 	//Check for 2 ways and block it
 	//|
@@ -611,6 +651,8 @@ async function computerProfessionalPlay () {
 //Computer extreme play
 async function computerExtremePlay () {
 	//Play scenerios
+	const edge = [0,2,6,8];
+	
 	//Variables
 	let computerSprite = window.gameData.sprite === "x"? "o": "x";
 
@@ -632,7 +674,7 @@ async function computerExtremePlay () {
 	
 	if(!chance.isChance && userMoveCounts === 1 && plays.indexOf(window.gameData.sprite) === 4){
 		
-		const use = [1,3,7,9];
+		const use = [0,2,6,8];
 		let random = () => {
 			return new Promise((resolve, reject) => {
 				let rand = Math.floor(Math.random() * use.length);
@@ -645,62 +687,61 @@ async function computerExtremePlay () {
 		let rand = await random();
 		return playComputerMove(use[rand]);
 	}
-	
-	//or
 
-	//Check for the first move of the user to play anywhere apart from the edge
-	userMoveCounts = 0;
+
+	//If the first move of user is at the center and the second move is at the edge
+	//and my move is at the edge -> find the closed edge to computer first play and play there
+	const userMoveIndex = [];
+	const userMoveValue = [];
+	const computerMoveIndex = [];
+
 	plays.forEach((item, index) => {
-		if(item === window.gameData.sprite) userMoveCounts++;
+		if(item === window.gameData.sprite) userMoveIndex.push(index);
+		if(item === computerSprite) computerMoveIndex.push(index)
+		if(edge.includes(index)) userMoveValue.push(item)
 	})
-	
 
-	if(!chance.isChance && userMoveCounts === 1 && plays.indexOf(window.gameData.sprite) === 4){
-		
-		const use = [1,5,7,3];
-		let random = () => {
-			return new Promise((resolve, reject) => {
-				let rand = Math.floor(Math.random() * use.length);
-				if(plays[use[rand]] === undefined) return resolve(rand);
-				else random();
-			})
-			
-		}
+	// && userMoveIndex.includes(4) && userMoveValue.includes(window.gameData.sprite) && edge.includes(plays.indexOf(computerSprite))
+	if(!chance.isChance && userMoveIndex.length === 2 && computerMoveIndex.length === 1 && userMoveIndex.includes(4) && userMoveValue.includes(window.gameData.sprite) && edge.includes(plays.indexOf(computerSprite))){
+		const availableSpot = [];
+		edge.forEach((item, index) => {
+			if(plays[item] ===  undefined) availableSpot.push(item);
+		})
 
-		let rand = await random();
-		return playComputerMove(use[rand]);
+
+		//Randomly select the spot
+		const rand = Math.floor(Math.random() * availableSpot.length)
+		console.log("called")
+		return playComputerMove(edge[rand]);
 	}
+	
 
 	//Check for 2 ways and block it
 	//|
 	//v
 	//Check if the total number of plays is 3 and computer is to make the next move
-	if(plays.filter(play => play === undefined).length === 6 && plays.filter(play => play === window.gameData.sprite).length === 2){
-		//Check if the two spot the user play is at the edge
-		const map = [];
-		const edge = [0,2,6,8];
-		const options = [1,5,7,3];
-		plays.forEach((item, index) => {
-			if(item === window.gameData.sprite) map.push(index);
-		})
 
-		if(edge.find(x => x === map[0]) !== undefined && edge.find(x => x === map[1]) !== undefined){
-			let rand = Math.floor(Math.random() * options.length);
-			return playComputerMove(options[rand]);
-			
-		}
+	//Check if the two spot the user play is at the edge
+	const map = [];
+	const options = [1,5,7,3];
+	plays.forEach((item, index) => {
+		if(item === window.gameData.sprite) map.push(index);
+	})
 
-		//Another style
-		const style = [[1,3], [1,5], [3,7], [5, 7]]
-		const decision = [[0, 2, 6], [2,0,8], [6,0,8], [8, 6, 2]]
-		return (
-			style.forEach((item, index) => {
-				if(item.find(x => x === map[0]) !== undefined && item.find(x => x === map[1]) !== undefined){
-					return playComputerMove(decision[index][Math.floor(Math.random() * 3)]);
-				}
-			})
-		)
+	if(plays.filter(play => play === undefined).length === 6 && plays.filter(play => play === window.gameData.sprite).length === 2 && edge.find(x => x === map[0]) !== undefined && edge.find(x => x === map[1]) !== undefined){
+		let rand = Math.floor(Math.random() * options.length);
+		return playComputerMove(options[rand]);
+		
 	}
+
+	//Another style
+	const style = [[1,3], [1,5], [3,7], [5, 7]]
+	const decision = [[0, 2, 6], [2,0,8], [6,0,8], [8, 6, 2]]
+	style.forEach((item, index) => {
+		if(plays.filter(play => play === undefined).length === 6 && plays.filter(play => play === window.gameData.sprite).length === 2 && item.find(x => x === map[0]) !== undefined && item.find(x => x === map[1]) !== undefined){
+			return playComputerMove(decision[index][Math.floor(Math.random() * 3)]);
+		}
+	})
 	
 
 
@@ -718,8 +759,7 @@ async function computerExtremePlay () {
 
 		if(filter.length === 2) availableCombinations.push(winItem);
 	})
-	
-	
+
 	if(availableCombinations.length > 0){
 		//Select random combination
 		let randomCombinationIndex = Math.floor(Math.random() * availableCombinations.length);
