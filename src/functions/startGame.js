@@ -30,6 +30,8 @@ function startGame (theStates) {
 		theStates.stopTimer();
 	}
 
+	theStates.stopTimer();
+
 	//Set to Play
 	if(!hasCollectFirstMove){
 		players = [window.gameData.firstMove, window.gameData.opponent]
@@ -559,8 +561,7 @@ async function computerProfessionalPlay () {
 
 		//Randomly select the spot
 		const rand = Math.floor(Math.random() * availableSpot.length)
-		console.log("called")
-		return playComputerMove(edge[rand]);
+		return playComputerMove(availableSpot[rand]);
 	}
 
 
