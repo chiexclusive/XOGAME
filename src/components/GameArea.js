@@ -23,6 +23,7 @@ function GameArea (props) {
 	var timeInterval;
 
 	const stopTimer = () => {
+		console.log('timer stopped')
 		clearInterval(timeInterval)
 	}
 
@@ -82,7 +83,8 @@ function GameArea (props) {
 		loadPage.style.display = "none";
 	}
 
-	const startTimer = () => {
+	const startTimer = (time) => {
+		console.log("timer started")
 		var time = 0
 		timeInterval = setInterval(() => {
 			time = time + 1
@@ -111,10 +113,12 @@ function GameArea (props) {
 	}
 
 
+
 	const getPausedGameOptions = (event) => {
 		document.querySelector("#parent-container").classList.add("go-from");
 		document.querySelector(".game-card").classList.add("reverse-straighten");
 		setIsPaused(true);
+		stopTimer();
 	}
 
 	const setGameRestartNow = () => {
@@ -122,6 +126,7 @@ function GameArea (props) {
 		document.querySelector(".game-card").classList.remove("reverse-straighten");
 		startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer})
 		setIsPaused(false)
+		window.gameEnded = true;
 	}
 
 

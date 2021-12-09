@@ -27,10 +27,9 @@ function startGame (theStates) {
 		theStates.setUserTies(0);
 		theStates.setUserWins(0);
 		theStates.setOpponentWins(0);
-		theStates.stopTimer();
 	}
 
-	theStates.stopTimer();
+	
 
 	//Set to Play
 	if(!hasCollectFirstMove){
@@ -38,6 +37,8 @@ function startGame (theStates) {
 		toPlay = window.gameData.firstMove;
 		hasCollectFirstMove = true;
 	}
+
+	if(Object.keys(states).length !== 0) states.stopTimer();
 
 	//Get states
 	states = theStates;
@@ -47,7 +48,7 @@ function startGame (theStates) {
 	box = document.querySelectorAll(".box");
 
 	//Call new game
-	newGame()
+	newGame();
 
 	//Start timer
 	states.startTimer();
@@ -254,7 +255,7 @@ function gameHasEnded () {
 
 //Play the move that computer have in mind
 function playComputerMove (id) {
-	console.log(id)
+
 	//Add the sprite to the box
 	box.forEach((item, index) => {
 		if(id !== undefined && id.toString() === item.getAttribute("data-id")){
@@ -465,8 +466,7 @@ async function computerIntermediatePlay () {
 
 		//Randomly select the spot
 		const rand = Math.floor(Math.random() * availableSpot.length)
-		console.log("called")
-		return playComputerMove(edge[rand]);
+		return playComputerMove(availableSpot[rand]);
 	}
 
 	
@@ -674,7 +674,7 @@ async function computerExtremePlay () {
 	})
 	
 	if(!chance.isChance && userMoveCounts === 1 && plays.indexOf(window.gameData.sprite) === 4){
-		
+
 		const use = [0,2,6,8];
 		let random = () => {
 			return new Promise((resolve, reject) => {
@@ -712,8 +712,7 @@ async function computerExtremePlay () {
 
 		//Randomly select the spot
 		const rand = Math.floor(Math.random() * availableSpot.length)
-		console.log("called")
-		return playComputerMove(edge[rand]);
+		return playComputerMove(availableSpot[rand]);
 	}
 	
 
