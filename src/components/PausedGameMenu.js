@@ -3,7 +3,7 @@ import DropDownPrompt from "./DropDownPrompt.js"
 
 import {useEffect, useState} from "react";
 
-function PausedGameMenu (props){
+export default function PausedGameMenu (props){
 
 	const [message, setMessage] = useState("");
 	const resume = () => {
@@ -23,9 +23,7 @@ function PausedGameMenu (props){
 		if(isAccepted === true && window.promptType === "restart"){
 			if(window.gameData.multiplayer){
 				window.gameData.socket.emit("RESTART", {connectionId: window.gameData.connectionId});
-				window.gameData.socket.on("RESTART", () => {
-				props.setGameRestartNow();
-			})
+			}
 
 			 props.setGameRestartNow();
 		}
@@ -76,5 +74,3 @@ function PausedGameMenu (props){
 		</div>
 	)
 }
-
-export default PausedGameMenu;

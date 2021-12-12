@@ -11,6 +11,7 @@ function App() {
 	
 	return (
 		<div className="app-space">
+			<title>X and O</title>
 		  <Menu implement = {(value) => setImplementType(value)} />
 		  <MenuImplements start = {() => setStart(true)} implement = {(value) => setImplementType(value)} type = {implementType}/>
 		  {(start)? <GameArea setStart = {setStart} implement = {(value) => setImplementType(value)} />: ""}
