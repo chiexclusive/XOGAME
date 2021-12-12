@@ -68,7 +68,12 @@ function CreateConnection (props){
 		}
 
 		//Create the websocket connection
-		socket = io("https://xandogame-async-api.herokuapp.com/");
+		socket = io("https://xandogame-async-api.herokuapp.com/", {
+			withCredentials: true,
+			extraHeaders: {
+				"Access-Control-Allow-Origin": "*"
+			}
+		});
 		socket.on("connection");
 
 		//Connect
