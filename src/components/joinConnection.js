@@ -31,7 +31,7 @@ function JoinConnection (props){
 			socket.emit("DISCONNECT");
 		}
 
-		socket = io("http://localhost:8000");
+		socket = io("https://xandogame-async-api.herokuapp.com/");
 
 		socket.emit("FETCH_CONNECTIONS");
 
