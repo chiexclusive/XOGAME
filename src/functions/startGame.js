@@ -16,6 +16,7 @@ const soundPlayer = new SoundPlayer(new AudioContext());
 var toPlay;
 var players = []
 var hasCollectFirstMove = false;
+var socket;
 
 
 function startGame (theStates) {
@@ -57,7 +58,110 @@ function startGame (theStates) {
 	if(!window.gameData) return;
 
 	//Handle for multiplayer
-	if(window.gameData.multiplayer){}
+	if(window.gameData.multiplayer){
+		socket = window.gameData.socket;
+		let data = window.gameData
+
+		console.log(window.gameData)
+
+		announce(window.gameData.firstMove+ " makes the first move");
+
+		const play = (event) => {
+			console.log("i was clicked")
+			// Get the targer element id
+			let played = event.target.getAttribute("data-id");
+		
+			socket.emit("PLAYED", {connectionId: data.connectionId, played})
+		}
+
+
+		const start = () => {
+
+			announce(window.gameData.firstMove+ " turn");
+
+			//Check if i am the one making the first move
+			if(window.gameData.firstMove !== undefined && window.gameData.firstMove === window.gameData.name){
+				
+				box.forEach((item, index) => item.addEventListener("click", play));
+			}
+		}
+
+		start();
+
+		socket.on("PLAYED", (data) => {
+			console.log(data);
+
+			//Remove event 
+			box.forEach((item, index) => item.removeEventListener("click", play));
+
+			if(data.isAvailable){
+				//Add the sprite to the box
+				box.forEach((item, index) => {
+					if(data.playedId !== undefined && data.playedId.toString() === item.getAttribute("data-id")){
+						item.innerHTML = sprites[data.sprite].replace("ELEM_ID", data.playedId);
+					}
+				})
+			}
+
+			//Check if the game session has ended
+			if(data.hasEnded) {
+
+				if(data.win){
+					data.winIndex.forEach((item, index) => {
+						box.forEach((boxItem, boxIndex) => {
+							if(item !== undefined && boxItem.getAttribute("data-id") === item.toString()) boxItem.classList.add("blink-continious");
+						})
+						
+					})
+
+					if(data.winSprite === window.gameData.sprite){
+						wins++;
+						states.setUserWins(wins);
+						announce(window.gameData.name + " won this round");
+					}else{
+						lost++
+						states.setOpponentWins(lost);
+						announce(window.gameData.opponent + " won this round");
+					}
+				}else{
+					ties++
+					states.setUserTies(ties);
+					announce("It's a tie");
+				}
+
+				states.stopTimer();
+
+				window.gameEnded = true;
+
+				//Listen to user click to start new Game
+				setTimeout(() => {
+					//Clear plays
+					box.forEach((item, index) => item.classList.remove("blink-continious"))
+
+					//Remove the x and the o on the board
+					box.forEach((item, index) => item.innerHTML = "");
+
+					window.gameData.firstMove = data.nextPlayer;
+					ties = wins = lost = 0;
+					announce(window.gameData.firstMove+ " makes the first move");
+					start();
+				}, 4000)
+			}else{
+				window.gameData.firstMove = data.nextPlayer;
+				start();
+			}
+		})
+
+
+		socket.on("RESTART", (data) => {
+			startGame ({...theStates, cleanState: true})
+		})
+
+		socket.on("QUIT", () => {
+			states.quit();
+		})
+
+	}
 
 	//Handel for single player
 	if(!window.gameData.multiplayer){
@@ -95,7 +199,6 @@ function handleUserPlay(event) {
 	if(window.gameData.sound === "yes"){
 		soundPlayer.play(450.0, 13.8, "sine").stop(0.2);
 	}
-
 
 	//Check if play exist
 	if(plays[event.target.getAttribute("data-id")] !== undefined) return;
@@ -736,14 +839,21 @@ async function computerExtremePlay () {
 
 	//Another style
 	const style = [[1,3], [1,5], [3,7], [5, 7]]
-	const decision = [[0, 2, 6], [2,0,8], [6,0,8], [8, 6, 2]]
-	style.forEach((item, index) => {
-		if(plays.filter(play => play === undefined).length === 6 && plays.filter(play => play === window.gameData.sprite).length === 2 && item.find(x => x === map[0]) !== undefined && item.find(x => x === map[1]) !== undefined){
-			return playComputerMove(decision[index][Math.floor(Math.random() * 3)]);
-		}
-	})
-	
+	const decision = [[0, 2, 6], [2,0,8], [6,0,8], [8, 6, 2]];
+	var hasPlayed = false;
+	var theIndex;
 
+	if(plays.filter(play => play === undefined).length === 6 && plays.filter(play => play === window.gameData.sprite).length === 2){
+		style.forEach((item, index) => {
+			if(!hasPlayed && item.find(x => x === map[0]) !== undefined && item.find(x => x === map[1]) !== undefined){
+				hasPlayed = true;
+				theIndex = index;
+			}
+		})
+
+		if(theIndex !== undefined) return playComputerMove(decision[theIndex][Math.floor(Math.random() * 3)]);
+	}
+	
 
 	//Loop through an array of combination where 2 slots are available out of 3
 	//And determine to play randomly in any of the given slot

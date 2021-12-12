@@ -26,6 +26,19 @@
 	transition: all .4s ease-out;
 }
 
+.multiPlayerConnectMenu{
+	background: var(--secondary-color);
+	border-radius: 10px;
+	overflow: hidden;
+	animation: menu-entry .8s ease-out;
+	position: absolute; 
+	z-index: 1;
+	transform: skew(10deg, 10deg);
+	box-shadow: -59px 60px 5px #1d1818;
+	border: 1px solid #363434;
+	transition: all .4s ease-out;
+}
+
 
 @keyframes menu-entry{
 	from{

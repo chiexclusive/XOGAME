@@ -9,3 +9,8 @@
   align-items: center;
   justify-content: center;
 }
+
+.list-group-item{
+	background: var(--primary-color) !important;
+	color: white !important;
+}

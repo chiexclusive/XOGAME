@@ -12,6 +12,15 @@ function PlaySubMenu (props) {
 
 	}
 
+	//Handle multiplayer
+	const multiPlayer = () => {
+		//Selete all sub menu
+		const thisContainer = document.querySelector(".play-menu-container");
+		thisContainer.classList.add("slide-right");
+		props.implement("MULTI_PLAYER_CONNECT_MENU");
+	}
+
+
 	const back = () => {
 		const menuContainer = document.querySelector(".menu-container");
 		const thisContainer = document.querySelector(".play-menu-container");
@@ -28,7 +37,7 @@ function PlaySubMenu (props) {
 					<span className = "menu-button-icon fa fa-user"></span>
 					<span>Single Player<br /> <span className = "menu-sub-button">Play Solo</span></span>
 				</li>
-				<li className = "menu-button">
+				<li className = "menu-button" onClick = {() => multiPlayer()}>
 					<span className = "menu-button-icon fa fa-users"></span>
 					<span>Multiplayer<br /> <span className = "menu-sub-button">Play with friends</span></span>
 				</li>

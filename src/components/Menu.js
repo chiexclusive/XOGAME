@@ -40,14 +40,6 @@ function Menu (props) {
 					<span className = "menu-button-icon fa fa-cog"></span>
 					<span>Settings <br /> <span className = "menu-sub-button">Customize Game</span></span>
 				</li>
-				<li className = "menu-button" onClick = {() => settings()}>
-					<span className = "menu-button-icon fa fa-cog"></span>
-					<span>History <br /> <span className = "menu-sub-button">Game History</span></span>
-				</li>
-				<li className = "menu-button">
-					<span className = "menu-button-icon fa fa-exclamation"></span>
-					<span>About</span>
-				</li>
 			</ul>
 		</menu>
 	)

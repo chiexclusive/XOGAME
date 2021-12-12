@@ -20,8 +20,16 @@ function PausedGameMenu (props){
 
 	//Handle Prompt
 	const handlePrompt = (isAccepted) => {
-		if(isAccepted === true && window.promptType === "restart") props.setGameRestartNow();
+		if(isAccepted === true && window.promptType === "restart"){
+			window.gameData.socket.emit("RESTART", {connectionId: window.gameData.connectionId});
+			window.gameData.socket.on("RESTART", () => {
+				props.setGameRestartNow();
+			})
+
+			if(!window.gameData.multiplayer) props.setGameRestartNow();
+		}
 		if(isAccepted === true && window.promptType === "quit"){
+			window.gameData.socket.emit("QUIT", {connectionId: window.gameData.connectionId});
 			props.setStart(false);
 			window.gameEnded = true;
 			document.querySelector(".menu-container").classList.remove("slide-left")

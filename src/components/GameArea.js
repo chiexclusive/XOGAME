@@ -30,7 +30,7 @@ function GameArea (props) {
 	//Handle restart
 	useEffect(() => {
 		if(restart){
-			startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer, cleanState: true})
+			startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer, cleanState: true, quit})
 		}
 	}, [restart])
 
@@ -57,7 +57,7 @@ function GameArea (props) {
 			setUserName(window.gameData.name);
 			setOpponent(window.gameData.opponent);
 			setTimeout(() => {
-				startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer, cleanState: true});
+				startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer, cleanState: true, quit});
 				document.querySelector(".difficulty-box").textContent = window.gameData.difficulty;
 			}, 1000);
 		}, 5000)
@@ -127,6 +127,12 @@ function GameArea (props) {
 		startGame({setUserWins, setOpponentWins, setUserTies, startTimer, stopTimer})
 		setIsPaused(false)
 		window.gameEnded = true;
+	}
+
+	const quit = () => {
+		props.setStart(false);
+		window.gameEnded = true;
+		document.querySelector(".menu-container").classList.remove("slide-left")
 	}
 
 
